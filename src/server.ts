@@ -1,20 +1,13 @@
 import express, { Application } from 'express';
-import bodyParser from 'body-parser';
+import middlewares from './network/middlewares';
 import routes from './network/routes';
 class Server {
 	app: Application;
 
 	constructor(private port: number) {
 		this.app = express();
-		this.loadMiddleware();
+		middlewares(this.app);
 		routes(this.app);
-	}
-
-	private loadMiddleware() {
-		this.app.use(bodyParser.json());
-		this.app.use(bodyParser.urlencoded({ extended: false }));
-		// this.app.use(passportLocal.initialize());
-		// this.app.use(JwtStrategy.initialize());
 	}
 
 	public start() {
